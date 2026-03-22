@@ -318,12 +318,13 @@ class Bot(commands.AutoShardedBot):
             self.setup_status = True
 
     async def start_tasks(self):
+        """Initialize and start all background tasks with staggered delays."""
         logging.info("Starting tasks...")
         if self.reminders_enabled:
             check_reminders.start(bot)
             logging.info("Starting the Check Reminders task...")
         else:
-            logging.warn("Reminders disabled. Not running check reminders task")
+            logging.warning("Reminders disabled. Not running check reminders task")
         await asyncio.sleep(30)
         check_loa.start(bot)
         logging.info("Starting the Check LOA task...")
@@ -390,7 +391,13 @@ environment = config("ENVIRONMENT", default="DEVELOPMENT")
 bot.internal_command_storage = {}
 
 
-def running():
+def running() -> int:
+    """
+    Check if the bot is running and ready.
+    
+    Returns:
+        int: 1 if bot is ready, -1 otherwise
+    """
     if bot:
         if bot._ready != MISSING:
             return 1
@@ -503,7 +510,18 @@ async def on_message(
 client = roblox.Client()
 
 
-async def staff_check(bot_obj, guild, member):
+async def staff_check(bot_obj, guild, member) -> bool:
+    """
+    Check if a member has staff permissions in a guild.
+    
+    Args:
+        bot_obj: The bot instance
+        guild: The Discord guild
+        member: The member to check
+        
+    Returns:
+        bool: True if member has staff permissions, False otherwise
+    """
     guild_settings = await bot_obj.settings.find_by_id(guild.id)
     member_role_ids = [r.id for r in member.roles]
     if guild_settings:
@@ -525,7 +543,18 @@ async def staff_check(bot_obj, guild, member):
     return False
 
 
-async def management_check(bot_obj, guild, member):
+async def management_check(bot_obj, guild, member) -> bool:
+    """
+    Check if a member has management permissions in a guild.
+    
+    Args:
+        bot_obj: The bot instance
+        guild: The Discord guild
+        member: The member to check
+        
+    Returns:
+        bool: True if member has management permissions, False otherwise
+    """
     guild_settings = await bot_obj.settings.find_by_id(guild.id)
     member_role_ids = [r.id for r in member.roles]
     if guild_settings:
@@ -547,7 +576,18 @@ async def management_check(bot_obj, guild, member):
     return False
 
 
-async def admin_check(bot_obj, guild, member):
+async def admin_check(bot_obj, guild, member) -> bool:
+    """
+    Check if a member has admin permissions in a guild.
+    
+    Args:
+        bot_obj: The bot instance
+        guild: The Discord guild
+        member: The member to check
+        
+    Returns:
+        bool: True if member has admin permissions, False otherwise
+    """
     guild_settings = await bot_obj.settings.find_by_id(guild.id)
     member_role_ids = [r.id for r in member.roles]
     if guild_settings:
@@ -611,7 +651,18 @@ def is_management():
     return commands.check(management_predicate)
 
 
-async def check_privacy(bot: Bot, guild: int, setting: str):
+async def check_privacy(bot: Bot, guild: int, setting: str) -> bool:
+    """
+    Check if a privacy setting is enabled for a guild.
+    
+    Args:
+        bot: The bot instance
+        guild: The guild ID
+        setting: The privacy setting to check
+        
+    Returns:
+        bool: True if setting is enabled or not found, False otherwise
+    """
     privacySettings = await bot.privacy.find_by_id(guild)
     if not privacySettings:
         return True
