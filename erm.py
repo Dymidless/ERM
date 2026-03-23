@@ -246,14 +246,21 @@ class Bot(commands.AutoShardedBot):
             BETA_EXT = ["cogs.StaffConduct"]
             EXTERNAL_EXT = ["utils.api"]
             [Extensions.append(i) for i in EXTERNAL_EXT]
+            
+            # Initialize feature flags
             if config("ACTIONS_ENABLED", default="TRUE").upper() != "TRUE":
                 self.actions_enabled = False
                 Extensions.remove("cogs.Actions")
                 logging.info("Actions cog is disabled (ACTIONS_ENABLED=FALSE)")
+            else:
+                self.actions_enabled = True
+                
             if config("REMINDERS_ENABLED", default="TRUE").upper() != "TRUE":
                 self.reminders_enabled = False
                 Extensions.remove("cogs.Reminders")
                 logging.info("Reminders cog is disabled (REMINDERS_ENABLED=FALSE)")
+            else:
+                self.reminders_enabled = True
 
             # used for checking whether this is WL!
             self.environment = environment
@@ -289,8 +296,9 @@ class Bot(commands.AutoShardedBot):
             if not bot.is_synced:  # check if slash commands have been synced
                 bot.tree.copy_global_to(guild=discord.Object(id=987798554972143728))
             if environment == "DEVELOPMENT":
-                pass
-                # await bot.tree.sync(guild=discord.Object(id=987798554972143728))
+                # Sync commands globally for development
+                await bot.tree.sync()
+                logging.info("Slash commands synced globally!")
             elif environment == "CUSTOM":
                 await self.tree.sync()
                 # Prevent auto syncing
