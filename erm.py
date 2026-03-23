@@ -296,9 +296,8 @@ class Bot(commands.AutoShardedBot):
             if not bot.is_synced:  # check if slash commands have been synced
                 bot.tree.copy_global_to(guild=discord.Object(id=987798554972143728))
             if environment == "DEVELOPMENT":
-                # Sync commands globally for development
-                await bot.tree.sync()
-                logging.info("Slash commands synced globally!")
+                pass
+                # await bot.tree.sync(guild=discord.Object(id=987798554972143728))
             elif environment == "CUSTOM":
                 await self.tree.sync()
                 # Prevent auto syncing
