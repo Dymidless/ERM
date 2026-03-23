@@ -1,5 +1,11 @@
 """
-This configuration is used in setup as a base configuration before modification.
+Constants and configuration templates for ERM Bot.
+
+This module contains:
+- Base configuration templates for guild settings
+- Color constants for embeds
+- Server condition mappings for ERLC integration
+- Condition operators for automation rules
 """
 
 import discord
@@ -59,10 +65,7 @@ base_configuration = {
     },
 }
 
-"""
-    Colour constants
-"""
-
+# Color constants for Discord embeds
 BLANK_COLOR = 0x2B2D31
 blank_color = BLANK_COLOR  # Redundancy
 
@@ -126,48 +129,3 @@ OPTION_DESCRIPTIONS = [
     "If the value is more than the specified value.",
     "If the value is more than or equal to the specified value.",
 ]
-
-WMO_TO_ERLC = {
-    0:  "Clear",        # Clear sky
-    1:  "Clear",        # Mainly clear
-    2:  "Clouds",       # Partly cloudy
-    3:  "Clouds",       # Overcast
-    45: "Fog",          # Foggy
-    48: "Fog",          # Icy fog
-    51: "Drizzle",      # Light drizzle
-    53: "Drizzle",      # Moderate drizzle
-    55: "Drizzle",      # Dense drizzle
-    61: "Rain",         # Slight rain
-    63: "Rain",         # Moderate rain
-    65: "Rain",         # Heavy rain
-    71: "Snow",         # Slight snow
-    73: "Snow",         # Moderate snow
-    75: "Snow",         # Heavy snow
-    77: "Snow",         # Snow grains
-    80: "Rain",         # Slight rain showers
-    81: "Rain",         # Moderate rain showers
-    82: "Rain",         # Violent rain showers
-    85: "Snow",         # Slight snow showers
-    86: "Snow",         # Heavy snow showers
-    95: "Thunderstorm", # Thunderstorm
-    96: "Thunderstorm", # Thunderstorm with hail
-    99: "Thunderstorm", # Thunderstorm with heavy hail
-}
-
-base_infraction_type = {
-    "name": "",
-    "notifications": {
-        "dm": {},
-        "public": {}
-    },
-    "role_changes": {
-        "add": {
-            "roles": [],
-        },
-        "remove": {
-            "roles": [],
-        }
-    },
-    "remove_ingame_perms": False,
-    "end_shift": False
-}

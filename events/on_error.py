@@ -1,3 +1,10 @@
+"""
+Global error handler for Discord bot events.
+
+This module handles uncaught errors that occur during bot operation,
+logging them to both Sentry and the database for tracking and debugging.
+"""
+
 import datetime
 import logging
 
@@ -10,11 +17,22 @@ from utils.utils import error_gen
 
 
 class OnError(commands.Cog):
+    """Handles global error events and logs them appropriately."""
+    
     def __init__(self, bot):
         self.bot = bot
 
     @commands.Cog.listener("on_error")
     async def on_error(self, error):
+        """
+        Handle uncaught errors during bot operation.
+        
+        Filters out common expected errors and logs serious errors
+        to both Sentry and the database with a unique error ID.
+        
+        Args:
+            error: The exception that was raised
+        """
         bot = self.bot
         error_id = error_gen()
 
