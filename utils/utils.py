@@ -41,6 +41,16 @@ system_code_gen = ZUID(prefix="erm-systems-", length=7)
 
 
 def removesuffix(input_string: str, suffix: str):
+    """
+    Remove a suffix from a string if it exists.
+    
+    Args:
+        input_string: The string to process
+        suffix: The suffix to remove
+        
+    Returns:
+        str: String with suffix removed, or original string if suffix not found
+    """
     if suffix and input_string.endswith(suffix):
         return input_string[: -len(suffix)]
     return input_string
@@ -81,6 +91,16 @@ async def generalised_interaction_check_failure(
 
 
 async def has_whitelabel(bot, guild_id: int) -> bool:
+    """
+    Check if a guild has a whitelabel bot instance.
+    
+    Args:
+        bot: The bot instance
+        guild_id: The Discord guild ID to check
+        
+    Returns:
+        bool: True if guild has whitelabel bot, False otherwise
+    """
     if (item := await bot.whitelabel.db.find_one({"GuildID": str(guild_id)})) is not None and config("ENVIRONMENT") not in ["ALPHA", "DEVELOPMENT"]:
         guild = bot.get_guild(guild_id)
         token = item.get("Token")
@@ -173,6 +193,20 @@ async def admin_check(bot_obj, guild, member):
     
 
 def time_converter(parameter: str) -> int:
+    """
+    Convert a time string to seconds.
+    
+    Supports formats like: 1d, 2h, 30m, 45s, 1w
+    
+    Args:
+        parameter: Time string (e.g., "1d", "2h30m")
+        
+    Returns:
+        int: Time in seconds
+        
+    Raises:
+        commands.BadArgument: If format is invalid
+    """
     conversions = {
         ("s", "seconds", " seconds"): 1,
         ("m", "minute", "minutes", " minutes"): 60,
@@ -412,6 +446,16 @@ def get_elapsed_time(document):
 
 
 async def get_prefix(bot, message):
+    """
+    Get the command prefix for a guild.
+    
+    Args:
+        bot: The bot instance
+        message: The Discord message
+        
+    Returns:
+        str: The command prefix for the guild
+    """
     if not message.guild:
         return commands.when_mentioned_or(">")(bot, message)
 
