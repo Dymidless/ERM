@@ -1,5 +1,11 @@
 """
-This configuration is used in setup as a base configuration before modification.
+Constants and configuration templates for ERM Bot.
+
+This module contains:
+- Base configuration templates for guild settings
+- Color constants for embeds
+- Server condition mappings for ERLC integration
+- Condition operators for automation rules
 """
 
 import discord
@@ -59,10 +65,7 @@ base_configuration = {
     },
 }
 
-"""
-    Colour constants
-"""
-
+# Color constants for Discord embeds
 BLANK_COLOR = 0x2B2D31
 blank_color = BLANK_COLOR  # Redundancy
 
