@@ -72,7 +72,6 @@ async def iterate_ics(bot):
             "mods": mods,
             "onduty": onduty,
         }
-        # print(json.dumps(new_data, indent=4))
 
         if new_data != item["data"]:
             # Updated data

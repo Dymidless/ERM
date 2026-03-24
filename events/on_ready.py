@@ -48,11 +48,8 @@ class OnReady(commands.Cog):
                         color=BLANK_COLOR,
                     )
                 )
-            except Exception as e:
-                # # print(e)
+            except Exception:
                 pass
-
-        # # # print('Shard disconnection')
         await callback()
 
 

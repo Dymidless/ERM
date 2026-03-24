@@ -27,7 +27,6 @@ class AI:
                 json=[reason],
             ) as resp:
                 result = await resp.json()
-                # # # print(result)
                 if not past:
                     res = result[-1]
                     return Punishment(
@@ -40,7 +39,6 @@ class AI:
             score = weights.get(result[0]["prediction"], 0) + sum(
                 [weights.get(x, 0) for x in past]
             )
-            # # # print(score)
             if result[-1]["prediction"] == "BOLO":
                 # return "BOLO"
                 return Punishment(

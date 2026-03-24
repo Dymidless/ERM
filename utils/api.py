@@ -1035,7 +1035,6 @@ class APIRoutes:
         if has_token:
             if not int(datetime.datetime.now().timestamp()) > has_token["expires_at"]:
                 return has_token
-        # # # print(request)
         generated = tokenGenerator()
         object = {
             "_id": request.client.host,
@@ -1138,8 +1137,6 @@ class APIRoutes:
         """
 
         token_obj = await self.bot.api_tokens.db.find_one({"_id": request.client.host})
-        ## # print(token_obj)
-        # # print(request.client.host)
         if not token_obj:
             raise HTTPException(
                 status_code=404, detail="Could not find token associated with IP"
@@ -1375,7 +1372,6 @@ class APIRoutes:
         base_auth = await validate_authorization(
             self.bot, authorization, disable_static_tokens=False
         )
-        # print(base_auth)
         if not base_auth:
             return HTTPException(status_code=401, detail="Invalid authorization")
         data = request.query_params.get("ObjectId")
@@ -1393,9 +1389,6 @@ class APIRoutes:
         identification: Identification,
         request: Request,
     ):
-        # # print(request)
-        # # print(await request.json())
-        # # print("REQUEST ^^")
         if not authorization:
             raise HTTPException(status_code=401, detail="Invalid authorization")
 

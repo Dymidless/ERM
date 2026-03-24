@@ -166,7 +166,6 @@ async def command_autocomplete(
                 )
             ]
 
-        # # # print(commands)
         commandList = []
         for command in commands:
             if command not in [""]:

@@ -55,7 +55,7 @@ async def iterate_reminder(bot, guildObj): # TODO: do a refactor of this.. this 
                 color=BLANK_COLOR,
             )
 
-            lastTriggered = next_time.timestamp()
+            lastTriggered = current_time.timestamp()
             item["lastTriggered"] = lastTriggered
             await bot.reminders.update_by_id(guildObj)
 
