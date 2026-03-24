@@ -6,7 +6,8 @@ This module contains:
 - Color constants for embeds
 - Server condition mappings for ERLC integration
 - Condition operators for automation rules
-- Weather code mappings for ERLC weather sync
+- Weather code mappings (WMO to ERLC)
+- Base infraction type structure
 """
 
 import discord
