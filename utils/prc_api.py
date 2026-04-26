@@ -227,7 +227,6 @@ class PRCApiClient:
         if status_code == 200:
             new_list = []
             for item in response_json:
-                # print(item)
                 new_list.append(
                     Player(
                         username=item["Player"].split(":")[0],
@@ -274,7 +273,6 @@ class PRCApiClient:
             except AttributeError:
                 players = []
             try:
-                
                 players += [Player(
                     username=v, id=k, permission="Server Administrator"
                 ) for k,v in response_json.get("Admins", {}).items()]
@@ -314,7 +312,6 @@ class PRCApiClient:
             if minimal:
                 return len(response_json)
             new_list = []
-            # print(response_json)
             for user in await self.bot.roblox.get_users(response_json, expand=False):
                 new_list.append(Player(username=user.name, id=user.id))
             return new_list
@@ -430,24 +427,3 @@ class PRCApiClient:
             else:
                 return status_code
 
-
-# TODO: Testing code, remove in production
-# client = PRCApiClient(None, config("PRC_API_URL"), config("PRC_API_KEY"))
-# async def main():
-#     server_status = await client.get_server_status(0)
-#     # print(f'There are currently {server_status.current_players}/{server_status.max_players} players in {server_status.join_key}.')
-#     players = await client.get_server_players(0)
-#     # print(f'There are {len(players)} players in server.')
-#     for player in players:
-#         # print(f'- {player.username} ({player.id})\n- {player.permission}')
-#     queue = await client.get_server_queue(0)
-#     # print(f'There are {len(queue)} players in queue.')
-#     # print(queue)
-#
-#     # await client.run_command(0, '')
-#     logs = (await client.fetch_server_logs(0))
-#     for log in logs:
-#         # print(f"{datetime.datetime.fromtimestamp(log.timestamp).strftime('%m/%d/%Y, %H:%M:%S')} | {log.username}: {log}")
-#
-#
-# asyncio.run(main())

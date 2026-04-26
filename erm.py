@@ -21,7 +21,10 @@ from utils.mongo import Document
 import aiohttp
 import decouple
 import discord.mentions
-import motor.motor_asyncio
+
+from pymongo import AsyncMongoClient
+
+
 import asyncio
 import pytz
 import sentry_sdk
@@ -154,7 +157,7 @@ class Bot(commands.AutoShardedBot):
                     self.user.name
                 )
             )
-            self.mongo = motor.motor_asyncio.AsyncIOMotorClient(str(mongo_url))
+            self.mongo = AsyncMongoClient(str(mongo_url))
 
             # The checking for this is defined just before the run method - approx line 649
             self.db = self.mongo[dbname]
@@ -366,7 +369,7 @@ async def AutoDefer(ctx: commands.Context):
             )
         raise Exception("Whitelabel bot already in use")
 
-    bot.internal_command_storage[ctx] = datetime.datetime.now(tz=pytz.UTC).timestamp()
+    bot.internal_command_storage[ctx.message.id] = datetime.datetime.now(tz=pytz.UTC).timestamp()
     if ctx.command:
         if ctx.command.extras.get("ephemeral") is True:
             if ctx.interaction:
@@ -378,12 +381,12 @@ async def AutoDefer(ctx: commands.Context):
 
 @bot.after_invoke
 async def loggingCommandExecution(ctx: commands.Context):
-    if ctx in bot.internal_command_storage:
+    if ctx.message.id in bot.internal_command_storage:
         command_name = ctx.command.qualified_name
 
         duration = float(
             datetime.datetime.now(tz=pytz.UTC).timestamp()
-            - bot.internal_command_storage[ctx]
+            - bot.internal_command_storage[ctx.message.id]
         )
         logging.info(
             f"Command {command_name} was run by {ctx.author.name} ({ctx.author.id}) and lasted {duration} seconds"
@@ -394,7 +397,7 @@ async def loggingCommandExecution(ctx: commands.Context):
             else "Shard ID ::: -1, Direct Messages"
         )
         logging.info(shard_info)
-        del bot.internal_command_storage[ctx]
+        del bot.internal_command_storage[ctx.message.id]
     else:
         logging.info(
             "Command could not be found in internal context storage. Please report."
